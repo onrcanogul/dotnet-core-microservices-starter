@@ -1,4 +1,4 @@
-using System.Reflection;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Order.Application.Mappings;
 using Order.Infrastructure;
@@ -12,6 +12,14 @@ builder.Services.AddControllers();
 builder.Services.AddEfCoreServices<OrderContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("OrderDb")));
 builder.Services.AddAutoMapper(typeof(OrderMappings));
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddMassTransit(conf =>
+{
+    conf.UsingRabbitMq((context, configure) =>
+    {
+        configure.Host(builder.Configuration.GetConnectionString("RabbitMqConnection"));
+    });
+});
 
 var app = builder.Build();
 
