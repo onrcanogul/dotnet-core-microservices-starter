@@ -18,7 +18,7 @@ public class Order : AggregateRoot
     
     private Order() {}
     
-    public Order Create(Guid customerId, Address shippingAddress, List<OrderItem> items)
+    public static Order Create(Guid customerId, Address shippingAddress, List<OrderItem> items)
     {
         var order = new Order()
         {
@@ -68,4 +68,22 @@ public class Order : AggregateRoot
         IsDeleted = true;
         AddDomainEvent(new OrderDeletedEvent(Id));
     }
+    
+    public void AddItem(Guid productId, string name, int quantity, double price)
+    {
+        if (Status != OrderStatus.Pending)
+            throw new Exception();
+
+        var existing = Items.FirstOrDefault(x => x.ProductId == productId);
+
+        if (existing is not null)
+        {
+            existing.IncreaseQuantity(quantity);
+        }
+        else
+        {
+            Items.Add(OrderItem.Create(productId, name, quantity, price));
+        }
+    }
+    
 }
