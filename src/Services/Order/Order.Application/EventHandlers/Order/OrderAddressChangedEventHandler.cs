@@ -1,6 +1,8 @@
 ﻿using MassTransit;
 using MediatR;
 using Order.Domain.Events;
+using Shared.Constants;
+using Shared.Events;
 
 namespace Order.Application.EventHandlers.Order
 {
@@ -8,8 +10,8 @@ namespace Order.Application.EventHandlers.Order
     {
         public async Task Handle(OrderAddressChangedEvent notification, CancellationToken cancellationToken)
         {
-            var sendEndpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:order-address-changed-event"));
-            await sendEndpoint.Send(notification, cancellationToken);
+            var sendEndpoint = await sendEndpointProvider.GetSendEndpoint(new Uri(QueueConsts.OrderAddressChangedQueue));
+            await sendEndpoint.Send(new OrderAddressChangedIntegrationEvent(notification.OrderId, notification.Address), cancellationToken);
         }
     }
 }
