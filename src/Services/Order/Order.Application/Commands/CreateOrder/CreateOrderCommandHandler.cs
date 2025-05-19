@@ -9,9 +9,14 @@ using Shared.EF.Repositories;
 using Shared.EF.Repositories.UnitOfWork;
 using Shared.EF.Response;
 
+
 namespace Order.Application.Commands.CreateOrder;
 
-public class CreateOrderCommandHandler(IRepository<Domain.Entities.Order, OrderContext> repository,IUnitOfWork<DbContext> uow, IMapper mapper) : IRequestHandler<CreateOrderCommand, ServiceResponse<CreateOrderCommandResponse>>
+public class CreateOrderCommandHandler(
+    IRepository<Domain.Entities.Order,
+    OrderContext> repository,
+    IUnitOfWork<DbContext> uow,
+    IMapper mapper) : IRequestHandler<CreateOrderCommand, ServiceResponse<CreateOrderCommandResponse>>
 {
     public async Task<ServiceResponse<CreateOrderCommandResponse>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {

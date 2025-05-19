@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Order.Infrastructure;
 using Shared.EF.Repositories;
 using Shared.EF.Repositories.UnitOfWork;
