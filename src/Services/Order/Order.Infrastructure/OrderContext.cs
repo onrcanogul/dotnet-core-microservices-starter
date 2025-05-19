@@ -11,5 +11,10 @@ public class OrderContext : DbContext
     {
         modelBuilder.Entity<Domain.Entities.Order>()
             .OwnsOne(o => o.ShippingAddress);
+        modelBuilder.Entity<Domain.Entities.Order>()
+            .HasQueryFilter(x => !x.IsDeleted);
+        
+        modelBuilder.Entity<Domain.Entities.OrderItem>()
+            .HasQueryFilter(x => !x.IsDeleted);
     }
 }
