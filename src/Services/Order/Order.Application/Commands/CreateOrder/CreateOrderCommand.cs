@@ -1,12 +1,13 @@
 using MediatR;
 using Order.Domain.Entities;
 using Order.Domain.ValueObjects;
+using Shared.EF.Response;
 
 namespace Order.Application.Commands.CreateOrder;
 
 public record CreateOrderCommand(
-    Guid customerId,
-    Address shippingAddress,
-    List<OrderItem> items) : IRequest<CreateOrderCommandResponse>;
+    Guid CustomerId,
+    Address ShippingAddress,
+    List<OrderItem> Items) : IRequest<ServiceResponse<CreateOrderCommandResponse>>;
     
 public record CreateOrderCommandResponse(Domain.Entities.Order Order);

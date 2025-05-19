@@ -12,17 +12,12 @@ public static class ServiceRegistration
 {
     public static IServiceCollection AddEfCoreServices<TContext>(
         this IServiceCollection services,
-        Action<DbContextOptionsBuilder> optionsAction,
-        Type mappingAssembly)
+        Action<DbContextOptionsBuilder> optionsAction)
     where TContext : DbContext
     {
         services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
         services.AddScoped(typeof(ICrudService<,,>), typeof(CrudService<,,>));
         services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-        services.AddAutoMapper(
-            Assembly.GetAssembly(typeof(BaseMapping)),
-            Assembly.GetAssembly(mappingAssembly)
-        );
         services.AddDbContext<TContext>(optionsAction);
         return services;
     }
