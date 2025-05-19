@@ -15,6 +15,7 @@ public class CancelOrderCommandHandler(IRepository<Domain.Entities.Order, OrderC
         var order = await repository.GetFirstOrDefaultAsync(x => x.Id == request.OrderId)
                     ?? throw new Exception();
         order.Done();
+        repository.Update(order);
         await uow.CommitAsync();
         return ServiceResponse<CancelOrderCommandResponse>.Success(new(), StatusCodes.Status200OK);
     }

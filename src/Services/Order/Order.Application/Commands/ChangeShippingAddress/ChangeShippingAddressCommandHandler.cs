@@ -15,6 +15,7 @@ public class ChangeShippingAddressCommandHandler(IRepository<Domain.Entities.Ord
         var order = await repository.GetFirstOrDefaultAsync(x => x.Id == request.OrderId)
             ?? throw new Exception();
         order.ChangeShippingAddress(request.NewAddress);
+        repository.Update(order);
         await uow.CommitAsync();
         return ServiceResponse<ChangeShippingAddressCommandResponse>.Success(new(), StatusCodes.Status200OK);
     }

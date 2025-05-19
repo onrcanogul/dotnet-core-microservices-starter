@@ -15,6 +15,7 @@ public class ConfirmOrderCommandHandler(IRepository<Domain.Entities.Order, Order
         var order = await repository.GetFirstOrDefaultAsync(x => x.Id == request.OrderId)
                     ?? throw new Exception();
         order.Done();
+        repository.Update(order);
         await uow.CommitAsync();
         return ServiceResponse<ConfirmOrderCommandResponse>.Success(new(), StatusCodes.Status200OK);
     }
